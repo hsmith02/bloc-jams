@@ -28,6 +28,21 @@ var albumMarconi = {
     ]
 };
 
+var albumBeatles = {
+    title: 'Help!',
+    artist: 'The Beatles',
+    label: 'Parlophone',
+    year: '1965',
+    albumArtUrl: 'assets/images/album_covers/20.png',
+    songs: [
+        { title: 'Help!', duration: '2:18' },
+        { title: 'Ticket to Ride', duration: '3:09' },
+        { title: 'Act Naturally', duration: '2:30' },
+        { title: 'I\'ve Just Seen a Face', duration: '2:05' },
+        { title: 'Yesterday', duration: '2:05' }
+    ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
     var template =
         '<tr class="album-view-song-item">'
@@ -40,12 +55,13 @@ var createSongRow = function(songNumber, songName, songLength) {
     return template;
 };
 
-var setCurrentAlbum = function(album) {
     var albumTitle = document.getElementsByClassName('album-view-title')[0];
     var albumArtist = document.getElementsByClassName('album-view-artist')[0];
     var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
     var albumImage = document.getElementsByClassName('album-cover-art')[0];
     var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
+var setCurrentAlbum = function(album) {
     
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
@@ -61,4 +77,15 @@ var setCurrentAlbum = function(album) {
 
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
+    
+    var albums = [albumPicasso, albumMarconi, albumBeatles];
+    var index = 1;
+    albumImage.addEventListener("click", function(event){
+        setCurrentAlbum(albums[index]);
+        index++;
+        if (index == albums.length) {
+            index = 0;
+        }
+    });
 };
+
