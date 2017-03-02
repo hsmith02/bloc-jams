@@ -182,11 +182,21 @@ var trackIndex = function(album, song){
     return album.songs.indexOf(song);
 };
 
+var setTotalTimeInPlayerBar = function(totalTime) {
+    $(".total-time").text(currentSongFromAlbum.duration);
+};
+
+var setCurrentTimeInPlayerBar = function(currentTime) {
+    $(".current-time").text(currentSoundFile.getTime());
+};
+
 var updatePlayerBarSong = function() {
     $('.currently-playing .song-name').text(currentSongFromAlbum.title);
     $('.currently-playing .artist-name').text(currentAlbum.artist);
     $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + " - " + currentAlbum.artist);
     $('.main-controls .play-pause').html(playerBarPauseButton);
+    // call function here and pass in duration
+    setTotalTimeInPlayerBar(currentSongFromAlbum.duration);
 };
 
 var nextSong = function() {
@@ -278,6 +288,8 @@ var currentVolume = 80;
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
 var $mainPlayButton = $('.main-controls .play-pause');
+
+
 
 $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
