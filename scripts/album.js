@@ -62,12 +62,12 @@ var createSongRow = function(songNumber, songName, songLength) {
         } else if (currentlyPlayingSongNumber === songNumber) {
             if (currentSoundFile.isPaused()) {
                 $(this).html(pauseButtonTemplate);
-                $('.main-controls .play-pause').html(playerBarPauseButton);
+                $mainPlayButton.html(playerBarPauseButton);
                 currentSoundFile.play();
                 updateSeekBarWhileSongPlays();
             } else {
                 $(this).html(playButtonTemplate);
-                $('.main-controls .play-pause').html(playerBarPlayButton);
+                $mainPlayButton.html(playerBarPlayButton);
                 currentSoundFile.pause();
             }
            
@@ -250,6 +250,20 @@ var previousSong = function() {
     
 };
 
+var togglePlayFromPlayerBar = function() {
+    if(currentSoundFile.isPaused()) {
+        var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+        currentlyPlayingCell.html(pauseButtonTemplate);
+        $mainPlayButton.html(playerBarPauseButton);
+        currentSoundFile.play();
+    } else if (currentSoundFile) {
+        var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+        currentlyPlayingCell.html(playButtonTemplate);
+        $mainPlayButton.html(playerBarPlayButton);
+        currentSoundFile.pause();
+    }
+};
+
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 var playerBarPlayButton = '<span class="ion-play"></span>';
@@ -263,11 +277,12 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $mainPlayButton = $('.main-controls .play-pause');
 
 $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
     setupSeekBars();
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
-    
+    $mainPlayButton.click(togglePlayFromPlayerBar);
 });
