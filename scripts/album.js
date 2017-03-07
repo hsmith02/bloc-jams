@@ -34,7 +34,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         '<tr class="album-view-song-item">'
       + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
-      + '  <td class="song-item-duration">' + songLength + '</td>'
+      + '  <td class="song-item-duration">' + (filterTimecode(songLength)) + '</td>'
       + '</tr>'
       ;
     
@@ -124,6 +124,7 @@ var updateSeekBarWhileSongPlays = function() {
             var $seekBar = $('.seek-control .seek-bar');
             
             updateSeekPercentage($seekBar, seekBarFillRatio);
+            setCurrentTimeInPlayerBar(currentSoundFile.getTime());
         });
     }
 };
@@ -183,12 +184,24 @@ var trackIndex = function(album, song){
 };
 
 var setTotalTimeInPlayerBar = function(totalTime) {
-    $(".total-time").text(currentSongFromAlbum.duration);
+    $(".total-time").text(filterTimecode(totalTime));
 };
 
 var setCurrentTimeInPlayerBar = function(currentTime) {
-    $(".current-time").text(currentSoundFile.getTime());
+    $(".current-time").text(filterTimecode(currentTime));
 };
+
+//var timer = buzz.toTimer();
+function filterTimecode(seconds) {
+  var minutes = Math.floor(seconds / 60);
+  var seconds = Math.floor(seconds % 60);
+  console.log(minutes);
+  console.log(seconds);
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+  return minutes + ":" + seconds;
+}
 
 var updatePlayerBarSong = function() {
     $('.currently-playing .song-name').text(currentSongFromAlbum.title);
